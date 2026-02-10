@@ -50,4 +50,13 @@
     owner: spektre
     group: spektre
     mode: 0644
+
+- name: copy periphery config file
+  tags: komodo
+  copy:
+    src: periphery.config.toml
+    dest: /etc/komodo/periphery.config.toml
+    owner: spektre
+    group: spektre
+    mode: 0644
   notify: run_komodo
