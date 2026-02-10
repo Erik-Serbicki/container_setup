@@ -76,6 +76,16 @@
     group: spektre
     mode: 0644
 
+- name: check /etc/komodo
+  stat:
+    path: "/etc/komodo"
+  register: komodo_config_path
+
+- name: make komodo config directory
+  command:
+    cmd: "mkdir /etc/komodo"
+  when: not komodo_config_path.stat.exists
+
 - name: copy periphery config file
   tags: komodo
   copy:
