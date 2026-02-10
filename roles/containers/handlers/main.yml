@@ -7,3 +7,8 @@
   command:
     cmd: "mkdir /home/spektre/docker"
 
+- name: run_komodo
+  tags: komodo
+  command:
+    chdir: /home/spektre/docker/komodo
+    cmd: "docker compose up -d"

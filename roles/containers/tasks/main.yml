@@ -37,3 +37,17 @@
     state: latest
   notify: create_docker_directory
 
+- name: create komodo directory
+  tags: docker,komodo
+  command:
+    cmd: "mkdir /home/spektre/docker/komodo_periphery"
+
+- name: copy komodo periphery compose file
+  tags: komodo
+  copy:
+    src: komodo_periphery.compose.yml
+    dest: /home/spektre/docker/komodo/docker-compose.yml
+    owner: spektre
+    group: spektre
+    mode: 0644
+  notify: run_komodo
