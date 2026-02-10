@@ -1,0 +1,9 @@
+- name: link_neovim
+  command:
+    cmd: "ln -s /opt/nvim-linux-x86_64/bin/nvim /usr/bin/nvim"
+
+- name: create_docker_directory
+  tags: docker
+  command:
+    cmd: "mkdir /home/spektre/docker"
+

@@ -1,0 +1,39 @@
+- name: install gcc, tar, nfs client 
+  tags: gcc,ubuntu,nfs
+  package:
+    name: 
+      - gcc 
+      - tar
+      - nfs-common
+    state: latest
+
+- name: install latest neovim
+  tags: neovim
+  unarchive:
+    src: https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
+    dest: /opt
+    remote_src: yes
+  notify: link_neovim    
+
+- name: check .config/nvim
+  find:
+    paths: '/home/spektre/.config/nvim'
+    file_type: any
+    hidden: true
+  register: nvim_config
+
+- name: clone my neovim config
+  tags: neovim
+  command:
+    cmd: "git clone https://github.com/Erik-Serbicki/neovim-config.git /home/spektre/.config/nvim"
+  when: nvim_config.matched == 0
+
+- name: install docker
+  tags: docker
+  package:
+    name:
+      - docker.io
+      - docker-compose-v2
+    state: latest
+  notify: create_docker_directory
+
