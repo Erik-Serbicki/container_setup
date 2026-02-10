@@ -13,9 +13,12 @@
     src: https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
     dest: /opt
     remote_src: yes
-  notify: link_neovim    
 
-- name: check .config/nvim
+- name: link_neovim
+  command:
+    cmd: "ln -s /opt/nvim-linux-x86_64/bin/nvim /usr/bin/nvim"
+
+- name: create nvim config directory
   find:
     paths: '/home/spektre/.config/nvim'
     file_type: any
@@ -36,6 +39,11 @@
       - docker-compose-v2
     state: latest
   notify: create_docker_directory
+
+- name: create_docker_directory
+  tags: docker
+  command:
+    cmd: "mkdir /home/spektre/docker"
 
 - name: create komodo directory
   tags: docker,komodo
@@ -59,4 +67,9 @@
     owner: spektre
     group: spektre
     mode: 0644
-  notify: run_komodo
+
+- name: run_komodo
+  tags: komodo
+  command:
+    chdir: /home/spektre/docker/komodo
+    cmd: "docker compose up -d"
