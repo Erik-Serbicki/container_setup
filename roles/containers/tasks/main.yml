@@ -14,9 +14,15 @@
     dest: /opt
     remote_src: yes
 
+- name: check if neovim link exists
+  stat:
+    path: "/usr/bin/nvim"
+  register: file_data
+
 - name: link_neovim
   command:
     cmd: "ln -s /opt/nvim-linux-x86_64/bin/nvim /usr/bin/nvim"
+  when: not file_data.stat.exists
 
 - name: create nvim config directory
   find:
@@ -54,7 +60,7 @@
   tags: komodo
   copy:
     src: komodo_periphery.compose.yml
-    dest: /home/spektre/docker/komodo/docker-compose.yml
+    dest: /home/spektre/docker/komodo_periphery/docker-compose.yml
     owner: spektre
     group: spektre
     mode: 0644
@@ -71,5 +77,5 @@
 - name: run_komodo
   tags: komodo
   command:
-    chdir: /home/spektre/docker/komodo
+    chdir: /home/spektre/docker/komodo_periphery
     cmd: "docker compose up -d"
