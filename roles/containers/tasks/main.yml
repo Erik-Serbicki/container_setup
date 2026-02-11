@@ -25,6 +25,9 @@
   when: not file_data.stat.exists
 
 - name: create nvim config directory
+  become: true
+  become_method: sudo
+  become_user: spektre
   find:
     paths: '/home/spektre/.config/nvim'
     file_type: any
@@ -51,6 +54,9 @@
   register: docker_path
 
 - name: create_docker_directory
+  become: true
+  become_method: sudo
+  become_user: spektre
   tags: docker
   command:
     cmd: "mkdir /home/spektre/docker"
@@ -62,6 +68,9 @@
   register: komodo_path
 
 - name: create komodo directory
+  become: true
+  become_method: sudo
+  become_user: spektre
   tags: docker,komodo
   command:
     cmd: "mkdir /home/spektre/docker/komodo_periphery"
